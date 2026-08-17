@@ -32,6 +32,7 @@
       flex-direction: column;
       align-items: center;
       padding: 32px 16px 60px;
+      gap: 0;
       color: var(--text);
     }
 
@@ -44,10 +45,26 @@
       background: linear-gradient(90deg, var(--rose), var(--gold-light), var(--rose));
     }
 
+    /* ── Poster banner ── */
+    .poster-wrap {
+      width: 100%;
+      max-width: 620px;
+      margin-bottom: 0;
+      border-radius: var(--radius) var(--radius) 0 0;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(180, 100, 60, 0.10);
+    }
+
+    .poster-wrap img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
     /* ── Header ── */
     .header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 0;
     }
 
     .logo-ring {
@@ -90,7 +107,7 @@
     .card {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: 0 0 var(--radius) var(--radius);
       box-shadow: 0 8px 40px rgba(180, 100, 60, 0.10);
       padding: clamp(24px, 5vw, 44px);
       width: 100%;
@@ -392,12 +409,17 @@
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Poster + Header -->
+  <div class="poster-wrap">
+    <img src="poster.png" alt="But first, Makeup" />
+  </div>
+
   <header class="header">
-    <div class="logo-ring">💄</div>
-    <h1>SJ <span>Makeup Artist</span></h1>
-    <p class="tagline">Bridal &amp; Occasion Makeup</p>
-    <div class="gold-divider"></div>
+    <div style="background: var(--card-bg); border-left: 1px solid var(--border); border-right: 1px solid var(--border); padding: 20px 0 4px; width: 100%; max-width: 620px; text-align: center;">
+      <h1>SJ <span>Makeup Artist</span></h1>
+      <p class="tagline">Bridal &amp; Occasion Makeup</p>
+      <div class="gold-divider" style="margin-bottom: 20px;"></div>
+    </div>
   </header>
 
   <!-- Enquiry Card -->
