@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SJ Makeup Artist — Book an Enquiry</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream:      #fdf6f0;
+      --rose:       #c9956c;
+      --rose-light: #e8b4a0;
+      --rose-pale:  #f5ddd3;
+      --gold:       #b8860b;
+      --gold-light: #d4a843;
+      --text:       #3a2a20;
+      --muted:      #8a6a5a;
+      --border:     #e0c4b4;
+      --error:      #c0392b;
+      --success:    #5a8a6a;
+      --card-bg:    #fffaf7;
+      --radius:     14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: linear-gradient(135deg, #fdf0e8 0%, #fdf6f0 40%, #f9ede6 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 16px 60px;
+      color: var(--text);
+    }
+
+    /* ── Decorative top stripe ── */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--rose), var(--gold-light), var(--rose));
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .logo-ring {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose-pale), var(--rose-light));
+      border: 3px solid var(--gold-light);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+      font-size: 32px;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+
+    .header h1 span {
+      color: var(--rose);
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-top: 6px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .gold-divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+      margin: 12px auto 0;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 40px rgba(180, 100, 60, 0.10);
+      padding: clamp(24px, 5vw, 44px);
+      width: 100%;
+      max-width: 620px;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--rose);
+      margin-bottom: 6px;
+    }
+
+    .card-subtitle {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    /* ── Form elements ── */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+
+    label .req {
+      color: var(--rose);
+      margin-left: 2px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.97rem;
+      color: var(--text);
+      background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      appearance: none;
+    }
+
+    select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a6a5a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--rose);
+      box-shadow: 0 0 0 3px rgba(201, 149, 108, 0.18);
+    }
+
+    input.error, textarea.error, select.error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12);
+    }
+
+    .error-msg {
+      font-size: 0.8rem;
+      color: var(--error);
+      margin-top: 5px;
+      display: none;
+    }
+
+    .error-msg.visible { display: block; }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    /* ── Menu checkbox cards ── */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .menu-grid { grid-template-columns: 1fr; }
+    }
+
+    .menu-card {
+      position: relative;
+    }
+
+    .menu-card input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+
+    .menu-label {
+      display: block;
+      padding: 14px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      background: #fff;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+
+    .menu-label:hover {
+      border-color: var(--rose-light);
+      background: var(--rose-pale);
+    }
+
+    .menu-card input[type="checkbox"]:checked + .menu-label {
+      border-color: var(--rose);
+      background: linear-gradient(135deg, #fdf0e8, var(--rose-pale));
+      box-shadow: 0 0 0 3px rgba(201, 149, 108, 0.18);
+    }
+
+    .menu-name {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .menu-card input[type="checkbox"]:checked + .menu-label .menu-name::before {
+      content: '✓';
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px; height: 16px;
+      background: var(--rose);
+      color: #fff;
+      border-radius: 4px;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+
+    .menu-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .menu-error {
+      font-size: 0.8rem;
+      color: var(--error);
+      margin-top: 8px;
+      display: none;
+    }
+
+    .menu-error.visible { display: block; }
+
+    /* ── Two-col row ── */
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 480px) {
+      .row-2 { grid-template-columns: 1fr; }
+    }
+
+    /* ── Submit button ── */
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      margin-top: 10px;
+      background: linear-gradient(135deg, var(--rose), #b07050);
+      color: #fff;
+      font-family: 'Lato', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 18px rgba(201, 149, 108, 0.35);
+    }
+
+    .btn-submit:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(201, 149, 108, 0.45);
+    }
+
+    .btn-submit:active { transform: translateY(0); }
+
+    .wa-icon {
+      width: 22px; height: 22px;
+      fill: #fff;
+      flex-shrink: 0;
+    }
+
+    .btn-note {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    /* ── Confirmation overlay ── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(60, 30, 10, 0.55);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .overlay.show { display: flex; }
+
+    .overlay-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.85); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+
+    .overlay-icon { font-size: 3rem; margin-bottom: 14px; }
+
+    .overlay-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .overlay-msg {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .btn-close {
+      background: none;
+      border: 1.5px solid var(--rose);
+      color: var(--rose);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 10px 28px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-close:hover {
+      background: var(--rose);
+      color: #fff;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 28px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      opacity: 0.75;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-ring">💄</div>
+    <h1>SJ <span>Makeup Artist</span></h1>
+    <p class="tagline">Bridal &amp; Occasion Makeup</p>
+    <div class="gold-divider"></div>
+  </header>
+
+  <!-- Enquiry Card -->
+  <div class="card">
+    <p class="card-title">Book an Enquiry</p>
+    <p class="card-subtitle">Fill in the details below and we'll get back to you on WhatsApp to confirm your booking.</p>
+
+    <form id="enquiryForm" novalidate>
+
+      <!-- Name + Phone -->
+      <div class="row-2">
+        <div class="form-group">
+          <label for="clientName">Your Name <span class="req">*</span></label>
+          <input type="text" id="clientName" placeholder="e.g. Priya Sharma" />
+          <span class="error-msg" id="nameErr">Please enter your name.</span>
+        </div>
+        <div class="form-group">
+          <label for="clientPhone">Contact Number <span class="req">*</span></label>
+          <input type="tel" id="clientPhone" placeholder="e.g. 98765 43210" />
+          <span class="error-msg" id="phoneErr">Please enter a valid number.</span>
+        </div>
+      </div>
+
+      <!-- Date Range -->
+      <div class="row-2">
+        <div class="form-group">
+          <label for="dateFrom">Booking From <span class="req">*</span></label>
+          <input type="date" id="dateFrom" />
+          <span class="error-msg" id="dateFromErr">Please select a start date.</span>
+        </div>
+        <div class="form-group">
+          <label for="dateTo">Booking To <span class="req">*</span></label>
+          <input type="date" id="dateTo" />
+          <span class="error-msg" id="dateToErr">Please select an end date.</span>
+        </div>
+      </div>
+
+      <!-- Place + Persons -->
+      <div class="row-2">
+        <div class="form-group">
+          <label for="makeupPlace">Place of Makeup <span class="req">*</span></label>
+          <input type="text" id="makeupPlace" placeholder="Venue / Home address" />
+          <span class="error-msg" id="placeErr">Please enter the location.</span>
+        </div>
+        <div class="form-group">
+          <label for="persons">No. of Persons <span class="req">*</span></label>
+          <select id="persons">
+            <option value="">Select</option>
+            <option value="1">1 Person</option>
+            <option value="2">2 Persons</option>
+            <option value="3">3 Persons</option>
+            <option value="4">4 Persons</option>
+          </select>
+          <span class="error-msg" id="personsErr">Please select number of persons.</span>
+        </div>
+      </div>
+
+      <!-- SJ Makeup Menu -->
+      <div class="form-group">
+        <label>SJ Makeup Menu <span class="req">*</span></label>
+        <div class="menu-grid">
+
+          <div class="menu-card">
+            <input type="checkbox" id="menuNormal" value="Normal Makeup" />
+            <label class="menu-label" for="menuNormal">
+              <span class="menu-name">Normal Makeup</span>
+              <span class="menu-desc">Classic everyday look</span>
+            </label>
+          </div>
+
+          <div class="menu-card">
+            <input type="checkbox" id="menuHD" value="HD Makeup" />
+            <label class="menu-label" for="menuHD">
+              <span class="menu-name">HD Makeup</span>
+              <span class="menu-desc">High-definition flawless finish</span>
+            </label>
+          </div>
+
+          <div class="menu-card">
+            <input type="checkbox" id="menuPremium" value="Premium Makeup" />
+            <label class="menu-label" for="menuPremium">
+              <span class="menu-name">Premium Makeup</span>
+              <span class="menu-desc">Luxury bridal &amp; occasion</span>
+            </label>
+          </div>
+
+        </div>
+        <span class="menu-error" id="menuErr">Please select at least one makeup type.</span>
+      </div>
+
+      <!-- Notes -->
+      <div class="form-group">
+        <label for="notes">Additional Notes <span style="font-weight:300;text-transform:none;font-size:0.78rem;">(optional)</span></label>
+        <textarea id="notes" placeholder="Any special requests, skin concerns, reference looks…"></textarea>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-submit">
+        <svg class="wa-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.558 4.118 1.533 5.843L.057 23.486a.75.75 0 0 0 .916.916l5.643-1.476A11.93 11.93 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.723 9.723 0 0 1-4.964-1.361l-.356-.211-3.35.877.877-3.35-.211-.356A9.724 9.724 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+        </svg>
+        Send Enquiry via WhatsApp
+      </button>
+      <p class="btn-note">Your details will open in WhatsApp — tap Send to confirm.</p>
+
+    </form>
+  </div>
+
+  <p class="footer">© 2024 SJ Makeup Artist · All rights reserved</p>
+
+  <!-- Confirmation Overlay -->
+  <div class="overlay" id="overlay">
+    <div class="overlay-card">
+      <div class="overlay-icon">🌸</div>
+      <h2 class="overlay-title">Enquiry Sent!</h2>
+      <p class="overlay-msg">
+        Thank you! Your enquiry has been sent to <strong>SJ Makeup Artist</strong> via WhatsApp.<br /><br />
+        We'll confirm your booking shortly. Looking forward to making your day special! 💄
+      </p>
+      <button class="btn-close" onclick="closeOverlay()">Back to Form</button>
+    </div>
+  </div>
+
+  <script>
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('dateFrom').setAttribute('min', today);
+    document.getElementById('dateTo').setAttribute('min', today);
+
+    // When From date changes, update To date minimum
+    document.getElementById('dateFrom').addEventListener('change', function() {
+      const toEl = document.getElementById('dateTo');
+      toEl.setAttribute('min', this.value || today);
+      if (toEl.value && toEl.value < this.value) toEl.value = this.value;
+      clearErr(this); hide('dateFromErr');
+    });
+
+    function show(id)    { document.getElementById(id).classList.add('visible'); }
+    function hide(id)    { document.getElementById(id).classList.remove('visible'); }
+    function markErr(el) { el.classList.add('error'); }
+    function clearErr(el){ el.classList.remove('error'); }
+
+    const errMap = {
+      clientName:  'nameErr',
+      clientPhone: 'phoneErr',
+      dateTo:      'dateToErr',
+      makeupPlace: 'placeErr',
+      persons:     'personsErr',
+    };
+
+    Object.keys(errMap).forEach(id => {
+      document.getElementById(id).addEventListener('change', function() {
+        clearErr(this); hide(errMap[id]);
+      });
+      document.getElementById(id).addEventListener('input', function() {
+        clearErr(this); hide(errMap[id]);
+      });
+    });
+
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', () => hide('menuErr'));
+    });
+
+    document.getElementById('enquiryForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      let valid = true;
+
+      const name      = document.getElementById('clientName');
+      const phone     = document.getElementById('clientPhone');
+      const dateFrom  = document.getElementById('dateFrom');
+      const dateTo    = document.getElementById('dateTo');
+      const place     = document.getElementById('makeupPlace');
+      const persons   = document.getElementById('persons');
+      const notes     = document.getElementById('notes').value.trim();
+      const menuItems = [...document.querySelectorAll('input[type="checkbox"]:checked')].map(c => c.value);
+
+      if (!name.value.trim())   { markErr(name);     show('nameErr');     valid = false; }
+      if (!phone.value.trim())  { markErr(phone);    show('phoneErr');    valid = false; }
+      if (!dateFrom.value)      { markErr(dateFrom); show('dateFromErr'); valid = false; }
+      if (!dateTo.value)        { markErr(dateTo);   show('dateToErr');   valid = false; }
+      if (!place.value.trim())  { markErr(place);    show('placeErr');    valid = false; }
+      if (!persons.value)       { markErr(persons);  show('personsErr');  valid = false; }
+      if (!menuItems.length)    { show('menuErr');                        valid = false; }
+
+      if (!valid) return;
+
+      const fmt = d => new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+      const dateRange = dateFrom.value === dateTo.value
+        ? fmt(dateFrom.value)
+        : `${fmt(dateFrom.value)} → ${fmt(dateTo.value)}`;
+
+      const message =
+        `Hello SJ Makeup Artist! 👋\n\n` +
+        `✨ New Booking Enquiry:\n` +
+        `• Name: ${name.value.trim()}\n` +
+        `• Contact: ${phone.value.trim()}\n` +
+        `• Booking Date: ${dateRange}\n` +
+        `• Place of Makeup: ${place.value.trim()}\n` +
+        `• No. of Persons: ${persons.value}\n` +
+        `• Makeup Type: ${menuItems.join(', ')}\n` +
+        `• Notes: ${notes || 'None'}\n\n` +
+        `Looking forward to hearing from you!`;
+
+      window.open(`https://wa.me/919578884818?text=${encodeURIComponent(message)}`, '_blank');
+      document.getElementById('overlay').classList.add('show');
+    });
+
+    function closeOverlay() {
+      document.getElementById('overlay').classList.remove('show');
+    }
+
+    document.getElementById('overlay').addEventListener('click', function(e) {
+      if (e.target === this) closeOverlay();
+    });
+  </script>
+</body>
+</html>
